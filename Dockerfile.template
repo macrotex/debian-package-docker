@@ -1,6 +1,6 @@
 # A container to build %%DEBIAN_DISTRIBUTION%% Debian packages
 
-# 0. We start with the "slim" version of %%DEBIAN_DISTRIBUTION%% Debian.
+# 0. We start with the "slim" version of Debian %%DEBIAN_DISTRIBUTION%%.
 FROM debian:%%DEBIAN_DISTRIBUTION%%-slim
 LABEL maintainer github238@macrotex.net
 

@@ -35,4 +35,4 @@ jobs:
           repository: macrotex/debian-package-docker
           tag_with_ref: false
           tag_with_sha: false
-          tags: unstable
+          tags: buster

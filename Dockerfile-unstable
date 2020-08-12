@@ -1,6 +1,6 @@
 # A container to build unstable Debian packages
 
-# 0. We start with the "slim" version of unstable Debian.
+# 0. We start with the "slim" version of Debian unstable.
 FROM debian:unstable-slim
 LABEL maintainer github238@macrotex.net
 

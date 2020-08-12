@@ -60,7 +60,7 @@ foreach my $distribution (@debian_distributions) {
           repository: macrotex/debian-package-docker
           tag_with_ref: false
           tag_with_sha: false
-          tags: unstable
+          tags: $distribution
 EOC
 
     print $OUT $docker_clause ;
