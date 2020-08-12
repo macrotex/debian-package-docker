@@ -4,21 +4,23 @@ name: Build a Docker image
 on: [push]
 
 jobs:
-  build_docker_image:
-    name: Build Docker Image
+  build_docker_images:
+    name: Build Docker Images
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build and push Docker images
+      - name: Build and push Docker image unstable
         uses: docker/build-push-action@v1
         with:
           # We omit the "registry" parameter so it defaults to
           # DockerHub
+          dockerfile: Dockerfile-unstable
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: macrotex/debian-package-docker
-          tag_with_ref: true
-          tag_with_sha: true
+          tag_with_ref: false
+          tag_with_sha: false
+          tags: unstable
 
