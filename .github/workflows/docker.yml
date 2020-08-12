@@ -1,4 +1,4 @@
-name: Build a Docker image
+name: Build Docker images
 
 # This workflow is triggered on pushes to the repository:
 on: [push]
@@ -24,3 +24,15 @@ jobs:
           tag_with_sha: false
           tags: unstable
 
+      - name: Build and push Docker image buster
+        uses: docker/build-push-action@v1
+        with:
+          # We omit the "registry" parameter so it defaults to
+          # DockerHub
+          dockerfile: Dockerfile-buster
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: macrotex/debian-package-docker
+          tag_with_ref: false
+          tag_with_sha: false
+          tags: unstable
