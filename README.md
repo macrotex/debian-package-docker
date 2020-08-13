@@ -5,6 +5,10 @@
 * `BUILD_DIRECTORY`: [REQUIRED] Set this environment variable equal to the
 full path of the directory containing the Debian package.
 
+* `RUN_LINTIAN`: [OPTIONAL] Set this environment variable equal to any
+non-empty string to run lintian at the end of the package build. Any
+lintian warnings will result in failure.
+
 ## Examples
 
 ## Build but throw-away the result

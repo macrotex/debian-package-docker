@@ -16,7 +16,15 @@ echo "build package in $tmp_dir..."
 cd $tmp_dir
 dpkg-buildpackage
 
-# 4. Clean up.
+# 4. Run lintian (maybe).
+if [ ! -z "$RUN_LINTIAN" ]; then
+    echo "running lintian..."
+    lintian -iI ../*.changes
+else
+    echo "skipping lintian..."
+fi
+
+# 5. Clean up.
 echo "clean up..."
 cd
 rm -rf /tmp/build
