@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build . --tag dpkg
+docker build . --file=Dockerfile-buster --tag dpkg:buster

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Because of the "set -e" we have to "or" several of the commands with true.
 set -e
 
@@ -20,7 +19,7 @@ if [[ -z "$DEPENDENCIES" ]]; then
 else
    echo "about to install dependencies:"
    echo "$DEPENDENCIES"
-   apt-get install -y --no-install-recommends $DEPENDENCIES
+   apt-get install -y --no-install-recommends "$DEPENDENCIES"
 fi
 
 exit 0
