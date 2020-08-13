@@ -19,7 +19,9 @@ if [[ -z "$DEPENDENCIES" ]]; then
 else
    echo "about to install dependencies:"
    echo "$DEPENDENCIES"
-   apt-get install -y --no-install-recommends "$DEPENDENCIES"
+   apt-get update
+   # shellcheck disable=SC2086
+   apt-get install -y --no-install-recommends $DEPENDENCIES
 fi
 
 exit 0

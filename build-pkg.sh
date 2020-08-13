@@ -13,15 +13,15 @@ if [ ! -d "$BUILD_DIRECTORY" ]; then
    exit 1
 fi
 
-if [ "$OUTPUT_DIRECTORY" = "" ]; then
-   echo "missing required environment variable OUTPUT_DIRECTORY"
-   exit 1
-fi
-
-if [ ! -d "$OUTPUT_DIRECTORY" ]; then
-   echo "OUTPUT_DIRECTORY '$OUTPUT_DIRECTORY' does not exist"
-   exit 1
-fi
+#if [ "$OUTPUT_DIRECTORY" = "" ]; then
+#   echo "missing required environment variable OUTPUT_DIRECTORY"
+#   exit 1
+#fi
+#
+#if [ ! -d "$OUTPUT_DIRECTORY" ]; then
+#   echo "OUTPUT_DIRECTORY '$OUTPUT_DIRECTORY' does not exist"
+#   exit 1
+#fi
 
 cd "$BUILD_DIRECTORY"
 
