@@ -11,9 +11,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Show Dockerhub username
-        run: echo ${{ secrets.DOCKERHUB_USERNAME }}
-
       - name: Build and push Docker image unstable
         uses: docker/build-push-action@v1
         with:
