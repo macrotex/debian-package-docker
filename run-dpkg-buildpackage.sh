@@ -19,7 +19,7 @@ dpkg-buildpackage
 # 4. Run lintian (maybe).
 if [ ! -z "$RUN_LINTIAN" ]; then
     echo "running lintian..."
-    lintian -i ../*.changes
+    lintian --allow-root -i ../*.changes
 else
     echo "skipping lintian..."
 fi
