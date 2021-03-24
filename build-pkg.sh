@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "A${BUILD_DIRECTORY}Z"
-
 set -e
 
 # Check for required environment variables.
