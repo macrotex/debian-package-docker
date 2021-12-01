@@ -28,6 +28,4 @@ jobs:
           push: true
           build-args: |
             DEBIAN_DISTRIBUTION=unstable-slim
-          tags:
-            - unstable
-            - sid
+          tags: unstable,sid
