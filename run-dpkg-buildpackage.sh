@@ -24,6 +24,11 @@ else
     echo "skipping lintian..."
 fi
 
+# If OUTPUT_DIRECTORY is defined, copy everything into it.
+if [ ! -z "$OUTPUT_DIRECTORY" ]; then
+    find .. -type f -execdir cp "{}" $OUTPUT_DIRECTORY ";"
+fi
+
 # 5. Clean up.
 echo "cleaning up..."
 cd
