@@ -74,7 +74,9 @@ if [[ ! -z "$DPUT_CF" ]]; then
 
     if [[ ! -z "$VERBOSE" ]]; then
         progress "dumping dput.cf file $DPUT_CF"
+        echo "#################################################"
         cat "$DPUT_CF"
+        echo "#################################################"
     fi
 
     cd "$tmp_dir"

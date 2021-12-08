@@ -32,7 +32,7 @@ if [[ ! -z "$OUTPUT_DIRECTORY" ]]; then
         exit_with_error "OUTPUT_DIRECTORY ($OUTPUT_DIRECTORY) is not a directory"
     else
         progress "OUTPUT_DIRECTORY ($OUTPUT_DIRECTORY) exists and is a directory"
-        progress "will leave all build artificats in $OUTPUT_DIRECTORY"
+        progress "will leave all build artifacts in $OUTPUT_DIRECTORY"
     fi
 fi
 
