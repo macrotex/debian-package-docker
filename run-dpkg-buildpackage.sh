@@ -2,6 +2,9 @@
 
 set -e
 
+SCRIPT_VERSION="1"
+progress "SCRIPT_VERSION is $SCRIPT_VERSION"
+
 ## #### #### #### #### #### #### #### #### ##
 progress () {
     local message
