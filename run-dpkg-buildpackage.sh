@@ -40,6 +40,8 @@ progress_show_env "RUN_LINTIAN"
 progress_show_env "DPUT_CF"
 progress_show_env "DPUT_HOST"
 progress_show_env "OUTPUT_DIRECTORY"
+progress_show_env "USER"
+progress_show_env "VERBOSE"
 
 # 1. Create a temporary place where we can build the package.
 progress "creating temporary directory..."
@@ -69,6 +71,12 @@ fi
 # happened in the script that called this script).
 if [[ ! -z "$DPUT_CF" ]]; then
     progress "running dput with configuration file $DPUT_CF"
+
+    if [[ ! -z "$VERBOSE" ]]; then
+        progress "dumping dput.cf file $DPUT_CF"
+        cat "$DPUT_CF"
+    fi
+
     cd "$tmp_dir"
     cd ..
     if [[ -z "$VERBOSE" ]]; then
