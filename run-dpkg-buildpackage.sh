@@ -3,7 +3,6 @@
 set -e
 
 SCRIPT_VERSION="1"
-progress "SCRIPT_VERSION is $SCRIPT_VERSION"
 
 ## #### #### #### #### #### #### #### #### ##
 progress () {
@@ -37,6 +36,8 @@ exit_with_error () {
     exit 1
 }
 ## #### #### #### #### #### #### #### #### ##
+
+progress "SCRIPT_VERSION is $SCRIPT_VERSION"
 
 progress_show_env "BUILD_DIRECTORY"
 progress_show_env "RUN_LINTIAN"
