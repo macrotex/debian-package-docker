@@ -2,23 +2,50 @@
 
 set -e
 
-# Check for required environment variables.
-if [ "$BUILD_DIRECTORY" = "" ]; then
-   echo "missing required environment variable BUILD_DIRECTORY"
-   exit 1
+## #### #### #### #### #### #### #### #### ##
+progress () {
+    local message
+    message=$1
+    echo "progress: $message"
+}
+exit_with_error () {
+    local message
+    message=$1
+    echo "error: $message"
+    exit 1
+}
+## #### #### #### #### #### #### #### #### ##
+
+# 0. Error checking.
+if [[ -z "$BUILD_DIRECTORY" ]]; then
+   exit_with_error "missing required environment variable BUILD_DIRECTORY"
+elif [[ ! -d "$BUILD_DIRECTORY" ]]; then
+   exit_with_error "BUILD_DIRECTORY '$BUILD_DIRECTORY' does not exist"
+else
+    progress "using BUILD_DIRECTORY '$BUILD_DIRECTORY' as the build directory"
 fi
 
-if [ ! -d "$BUILD_DIRECTORY" ]; then
-   echo "BUILD_DIRECTORY '$BUILD_DIRECTORY' does not exist"
-   exit 1
-fi
-
-if [ ! -z "$OUTPUT_DIRECTORY" ]; then
-    if [ ! -d "$OUTPUT_DIRECTORY" ]; then
-        echo "OUTPUT_DIRECTORY '$OUTPUT_DIRECTORY' does not exist"
-        exit 1
+if [[ ! -z "$OUTPUT_DIRECTORY" ]]; then
+    if [[ ! -e "$OUTPUT_DIRECTORY" ]]; then
+        exit_with_error "OUTPUT_DIRECTORY ($OUTPUT_DIRECTORY) does not exist"
+    elif [[ ! -d "$OUTPUT_DIRECTORY" ]]; then
+        exit_with_error "OUTPUT_DIRECTORY ($OUTPUT_DIRECTORY) is not a directory"
+    else
+        progress "OUTPUT_DIRECTORY ($OUTPUT_DIRECTORY) exists and is a directory"
+        progress "will leave all build artificats in $OUTPUT_DIRECTORY"
     fi
-    echo "will leave all build artificates in $OUTPUT_DIRECTORY"
+fi
+
+if [[ ! -z "$DPUT_CF" ]]; then
+    if [[ ! -e "$DPUT_CF" ]]; then
+        exit_with_error "file DPUT_CF ($DPUT_CF) does not exist"
+    elif [[ ! -f "$DPUT_CF" ]]; then
+        exit_with_error "DPUT_CF ($DPUT_CF) is not a file"
+    elif [[ -z "$DPUT_HOST" ]]; then
+        exit_with_error "if DPUT_CF is set you must also supply DPUT_HOST"
+    else
+        progress "DPUT_CF ($DPUT_CF) exists and is a file"
+    fi
 fi
 
 cd "$BUILD_DIRECTORY"

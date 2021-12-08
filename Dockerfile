@@ -14,8 +14,10 @@ RUN   apt-get update \
         devscripts      \
         fakeroot        \
         debhelper       \
+        dput            \
         lintian         \
         perl            \
+        openssh-client  \
    && apt-get clean
 
 # 2. Add the package script. This script changes to
