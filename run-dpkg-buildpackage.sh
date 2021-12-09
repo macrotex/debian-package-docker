@@ -2,7 +2,7 @@
 
 set -e
 
-SCRIPT_VERSION="1"
+SCRIPT_VERSION="3"
 
 ## #### #### #### #### #### #### #### #### ##
 progress () {
@@ -92,10 +92,13 @@ if [[ ! -z "$DPUT_CF" ]]; then
     fi
 
     # If the dput fails don't abort script.
-    dput "$debug_flag" -c "$DPUT_CF" "$DPUT_HOST" *.changes || /usr/bin/true
+    dput "$debug_flag" -c "$DPUT_CF" "$DPUT_HOST" *.changes || /bin/true
 
-    ls -l
-    cat *upload
+    if [[ -z "$VERBOSE" ]]; then
+        ls -l
+        cat *upload
+    fi
+
 else
     progress "DPUT_CF not defined so skipping dput..."
 fi
