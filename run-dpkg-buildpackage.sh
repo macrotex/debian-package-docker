@@ -91,7 +91,11 @@ if [[ ! -z "$DPUT_CF" ]]; then
         debug_flag="--debug"
     fi
 
-    dput "$debug_flag" -c "$DPUT_CF" "$DPUT_HOST" *.changes
+    # If the dput fails don't abort script.
+    dput "$debug_flag" -c "$DPUT_CF" "$DPUT_HOST" *.changes || /usr/bin/true
+
+    ls -l
+    cat *upload
 else
     progress "DPUT_CF not defined so skipping dput..."
 fi
