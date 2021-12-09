@@ -2,7 +2,7 @@
 
 set -e
 
-SCRIPT_VERSION="3"
+SCRIPT_VERSION="4"
 
 ## #### #### #### #### #### #### #### #### ##
 progress () {
@@ -94,7 +94,7 @@ if [[ ! -z "$DPUT_CF" ]]; then
     # If the dput fails don't abort script.
     dput "$debug_flag" -c "$DPUT_CF" "$DPUT_HOST" *.changes || /bin/true
 
-    if [[ -z "$VERBOSE" ]]; then
+    if [[ "$VERBOSE" ]]; then
         ls -l
         cat *upload
     fi
