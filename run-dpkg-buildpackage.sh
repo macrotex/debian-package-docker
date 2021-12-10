@@ -44,8 +44,12 @@ progress_show_env "RUN_LINTIAN"
 progress_show_env "DPUT_CF"
 progress_show_env "DPUT_HOST"
 progress_show_env "OUTPUT_DIRECTORY"
-progress_show_env "USER"
 progress_show_env "VERBOSE"
+progress_show_env "USER"
+progress_show_env "EMAIL"
+progress_show_env "DEBEMAIL"
+progress_show_env "EMAIL"
+progress_show_env "DEBFULLNAME"
 
 # 1. Create a temporary place where we can build the package.
 progress "creating temporary directory..."
