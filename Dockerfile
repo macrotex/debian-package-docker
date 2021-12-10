@@ -17,6 +17,7 @@ RUN   apt-get update \
         dput            \
         lintian         \
         perl            \
+        libdistro-info-perl \
         openssh-client  \
    && apt-get clean
 
