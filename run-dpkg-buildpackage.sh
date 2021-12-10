@@ -94,9 +94,11 @@ if [[ ! -z "$DPUT_CF" ]]; then
     # If the dput fails don't abort script.
     dput "$debug_flag" -c "$DPUT_CF" "$DPUT_HOST" *.changes || /bin/true
 
-    if [[ "$VERBOSE" ]]; then
-        ls -l
+    if [[ ! -z "$VERBOSE" ]]; then
+        echo "displaying contents of the .upload file"
+        echo "#################################################"
         cat *upload
+        echo "#################################################"
     fi
 
 else
