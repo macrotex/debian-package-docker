@@ -4,8 +4,21 @@ This image does a Debian package build. You mount the directory where the
 debian repository lives and the image will run `dpkg-buildpackage` on that
 directory. The results are thrown away unless the `OUTPUT_DIRECTORY`
 directory is set. You can optionally run lintian on the resulting build.
-Finaly, if the `DPUT_CF` environment is set and points to a
+Finally, if the `DPUT_CF` environment is set and points to a
 `dput.cf` file the package will be uploaded using `dput`.
+
+1. Install any package dependencies derived from the Debian package's
+`control` file.
+
+1. Run `dpkg-buildpackage --no-sign`.
+
+1. Run `lintian` if the `RUN_LINTIAN` environment variable is set.
+
+1. Depending on the environment variables `DPUT_CF` and `DPUT_HOST` upload
+the package build using `dput`.
+
+1. If the `OUTPUT_DIRECTORY` environment variable is set copy the
+build artificates to another directory for later use.
 
 ## Tags
 
