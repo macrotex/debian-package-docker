@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
      DOCKERHUB_USERNAME: macrotex
-     IMAGE_NAME:         debian-package-docker
+     IMAGE_NAME:         debian-package
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
