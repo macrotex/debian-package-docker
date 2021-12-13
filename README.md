@@ -1,13 +1,13 @@
-# Build a Debian package using a container
+# Build a Debian package using a container (`debian-package`)
 
 ## Overview
 
-This image does a Debian package build. You mount the directory where the
-debian repository lives and the image will run `dpkg-buildpackage` on that
-directory. You can optionally run lintian on the resulting build. Finally,
-if the `DPUT_CF` environment is set and points to a `dput.cf` file the
-package will be uploaded using `dput`. The results are thrown away unless
-the `OUTPUT_DIRECTORY` directory is set.
+The `debian-package` image does a Debian package build. You mount the
+directory where the debian repository lives and the image will run
+`dpkg-buildpackage` on that directory. You can optionally run lintian on
+the resulting build. Finally, if the `DPUT_CF` environment is set and
+points to a `dput.cf` file the package will be uploaded using `dput`. The
+results are thrown away unless the `OUTPUT_DIRECTORY` directory is set.
 
 Here is a summary of what happens:
 
@@ -30,7 +30,7 @@ To build for a specific Debian release specify the release using the Docker tag.
 For example, to build a Debian package for the sid (unstable) release
 use the `sid` tag:
 ```
-$ docker run --rm docker-package-build:sid [other options]
+$ docker run --rm debian-package:sid [other options]
 ```
 
 Currently, the following Debian distribution tags are supported:
@@ -113,7 +113,7 @@ results) by doing this:
 $ ls /tmp/mypack
 test.txt
 debian/
-$ docker run --rm -v /tmp/mypack:/root/mypack --env BUILD_DIRECTORY=/root/mypack docker-package-build
+$ docker run --rm -v /tmp/mypack:/root/mypack --env BUILD_DIRECTORY=/root/mypack debian-package
 ```
 
 ### Build and `dput`
@@ -145,7 +145,7 @@ $ docker run --rm -v /tmp/mypack:/root/mypack --env BUILD_DIRECTORY=/root/mypack
                   -v /tmp/build-area:/root/build-area --env BUILD_DIRECTORY=/root/build-area \
                   -v /tmp/dput.cf:/root/dput.cf --env DPUT_CF=/root/dput.cf \
                   --env DPUT_HOST=upload-host \
-                  docker-package-build
+                  debian-package-build
 ```
 
 The above is incomplete in that almost certainly the server listed in the
@@ -180,6 +180,6 @@ test.txt
 debian/
 $ docker run --rm -v /tmp/mypack:/root/mypack --env BUILD_DIRECTORY=/root/mypack \
                   -v /tmp/build-area:/root/build-area --env BUILD_DIRECTORY=/root/build-area \
-                  docker-package-build
+                  debian-package-build
 ```
 The package build artificts will be left in `/tmp/build-area`.
