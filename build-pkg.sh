@@ -46,6 +46,8 @@ if [[ ! -z "$DPUT_CF" ]]; then
     else
         progress "DPUT_CF ($DPUT_CF) exists and is a file"
     fi
+
+    echo "will leave all build artificats in $OUTPUT_DIRECTORY"
 fi
 
 cd "$BUILD_DIRECTORY"

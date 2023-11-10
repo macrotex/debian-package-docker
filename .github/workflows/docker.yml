@@ -35,6 +35,15 @@ jobs:
             ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:unstable,
             ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:sid
 
+      - name: Build and push Docker image (bookworm)
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          build-args: |
+            DEBIAN_DISTRIBUTION=bookworm-slim
+          tags: >
+            ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:bookworm
+
       - name: Build and push Docker image (bullseye)
         uses: docker/build-push-action@v2
         with:
