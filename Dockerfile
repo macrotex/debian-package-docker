@@ -3,7 +3,7 @@
 # 0. We start with version of Debian specified by the build argument
 # DEBIAN_DISTRIBUTION.
 
-ARG DEBIAN_DISTRIBUTION=debian:buster-slim
+ARG DEBIAN_DISTRIBUTION=buster-slim
 FROM debian:$DEBIAN_DISTRIBUTION
 LABEL maintainer github238@macrotex.net
 
@@ -26,6 +26,7 @@ RUN   apt-get update \
 ADD install-dependencies.sh   /root/install-dependencies.sh
 ADD build-pkg.sh              /root/build-pkg.sh
 ADD run-dpkg-buildpackage.sh  /root/run-dpkg-buildpackage.sh
+ADD extract-dependencies.pl   /root/extract-dependencies.pl
 
 # FINALLY. Run the package build script
 CMD /root/build-pkg.sh

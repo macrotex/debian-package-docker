@@ -1,18 +1,30 @@
 #!/bin/bash
 
+# We disable shellcheck's SC200l as I could not get this script to work
+# with SC2001's suggestion.
+# shellcheck disable=SC2001
+
 # Because of the "set -e" we have to "or" several of the commands with true.
 set -e
+
+## #### #### #### #### #### #### #### #### ##
+progress () {
+    local message
+    if [[ -n "$VERBOSE" ]]; then
+        message=$1
+        echo "progress: $message"
+    fi
+}
+## #### #### #### #### #### #### #### #### ##
 
 export DPKG_COLORS=never
 
 DEPENDENCIES_RAW=$(dpkg-checkbuilddeps 2>&1 || true)
 DEPENDENCIES_RAW=$(echo "$DEPENDENCIES_RAW" | grep 'Unmet build dependencies' || true)
+progress "DEPENDENCIES_RAW is '$DEPENDENCIES_RAW'"
 
-DEPENDENCIES=$(echo "$DEPENDENCIES_RAW" | perl -n -e 'if (m{dependencies: (.*)$}) { print "$1\n"; }' -n)
-
-# Remove any leading or trailing spaces.
-DEPENDENCIES=$(echo $DEPENDENCIES | sed -e 's/^[[:space:]]*//')
-DEPENDENCIES=$(echo $DEPENDENCIES | sed -e 's/[[:space:]]*$//')
+DEPENDENCIES=$(perl /root/extract-dependencies.pl "$DEPENDENCIES_RAW")
+progress "DEPENDENCIES is '$DEPENDENCIES'"
 
 if [[ -z "$DEPENDENCIES" ]]; then
    echo "no build dependencies to install"

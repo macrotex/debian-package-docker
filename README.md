@@ -179,7 +179,7 @@ $ ls /tmp/mypack
 test.txt
 debian/
 $ docker run --rm -v /tmp/mypack:/root/mypack --env BUILD_DIRECTORY=/root/mypack \
-                  -v /tmp/build-area:/root/build-area --env BUILD_DIRECTORY=/root/build-area \
+                  -v /tmp/build-area:/root/build-area --env OUTPUT_DIRECTORY=/root/build-area \
                   debian-package-build
 ```
 The package build artificts will be left in `/tmp/build-area`.

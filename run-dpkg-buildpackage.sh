@@ -1,14 +1,20 @@
 #!/bin/bash
 
+# The shellcheck utility thinks some of the code is unreachable when it's
+# not, so tell it to be quiet about it.
+# shellcheck disable=SC2317
+
 set -e
 
-SCRIPT_VERSION="4"
+SCRIPT_VERSION="5"
 
 ## #### #### #### #### #### #### #### #### ##
 progress () {
     local message
-    message=$1
-    echo "progress: $message"
+    if [[ -n "$VERBOSE" ]]; then
+        message=$1
+        echo "progress: $message"
+    fi
 }
 
 progress_show_env () {
@@ -68,7 +74,7 @@ dpkg-buildpackage --no-sign
 # 4. Run lintian (maybe).
 # We use the "--allow-root" option to override lintian's warning when it
 # is run with superuser privileges.
-if [[ ! -z "$RUN_LINTIAN" ]]; then
+if [[ -n "$RUN_LINTIAN" ]]; then
     progress "running lintian..."
     lintian --allow-root -i ../*.changes
 else
@@ -77,10 +83,10 @@ fi
 
 # 5. If DPUT_CF is set run dput (error checking on DPUT_CF
 # happened in the script that called this script).
-if [[ ! -z "$DPUT_CF" ]]; then
+if [[ -n "$DPUT_CF" ]]; then
     progress "running dput with configuration file $DPUT_CF"
 
-    if [[ ! -z "$VERBOSE" ]]; then
+    if [[ -n "$VERBOSE" ]]; then
         progress "dumping dput.cf file $DPUT_CF"
         echo "#################################################"
         cat "$DPUT_CF"
@@ -96,12 +102,12 @@ if [[ ! -z "$DPUT_CF" ]]; then
     fi
 
     # If the dput fails don't abort script.
-    dput "$debug_flag" -c "$DPUT_CF" "$DPUT_HOST" *.changes || /bin/true
+    dput "$debug_flag" -c "$DPUT_CF" -- "$DPUT_HOST" *.changes || /bin/true
 
-    if [[ ! -z "$VERBOSE" ]]; then
+    if [[ -n "$VERBOSE" ]]; then
         echo "displaying contents of the .upload file"
         echo "#################################################"
-        cat *upload
+        cat -- *upload
         echo "#################################################"
     fi
 
@@ -110,10 +116,18 @@ else
 fi
 
 # 6. If OUTPUT_DIRECTORY is defined, copy everything into it.
-if [[ ! -z "$OUTPUT_DIRECTORY" ]]; then
+if [[ -n "$OUTPUT_DIRECTORY" ]]; then
     progress "copying everything into OUTPUT_DIRECTORY ($OUTPUT_DIRECTORY)..."
     cd "$tmp_dir"
-    find .. -type f -execdir cp "{}" $OUTPUT_DIRECTORY ";"
+    find .. -type f -execdir cp "{}" "$OUTPUT_DIRECTORY" ";"
+    #
+    # Print out the package build artifact files.
+    source=$(dpkg-parsechangelog  -l "$BUILD_DIRECTORY/debian/changelog" | grep Source  | cut -f2 -d':' | tr -d ' ')
+    version=$(dpkg-parsechangelog -l "$BUILD_DIRECTORY/debian/changelog" | grep Version | cut -f2 -d':' | tr -d ' ')
+    build_files_prefix="${source}_${version}"
+    echo "------------------------------"
+    echo "Your output directory contains these Debian package files:"
+    ls "$OUTPUT_DIRECTORY/${build_files_prefix}"*
 else
     progress "OUTPUT_DIRECTORY not defined so skipping copying..."
 fi
