@@ -3,8 +3,9 @@
 ## Overview
 
 The `debian-package` image does a Debian package build. You mount the
-directory where the debian repository lives and the image will run
-`dpkg-buildpackage` on that directory. You can optionally run lintian on
+directory containing the Debian package source and the image will run
+`dpkg-buildpackage` on that directory. You can optionally run
+[lintian](https://wiki.debian.org/Lintian) on
 the resulting build. Finally, if the `DPUT_CF` environment is set and
 points to a `dput.cf` file the package will be uploaded using `dput`. The
 results are thrown away unless the `OUTPUT_DIRECTORY` directory is set.
@@ -12,7 +13,7 @@ results are thrown away unless the `OUTPUT_DIRECTORY` directory is set.
 Here is a summary of what happens:
 
 1. Install any package dependencies derived from the Debian package's
-`control` file.
+`debian/control` file.
 
 1. Run `dpkg-buildpackage --no-sign`.
 
@@ -37,24 +38,31 @@ Currently, the following Debian distribution tags are supported:
 ```
 buster
 bullseye
+bookworm
 sid
 unstable (same as sid)
 ```
 
-## Building Docker image
+## Building the Docker image
 
 This Docker image has a single build argument `DEBIAN_DISTRIBUTION`. To build
 for a specific Debian distribution you must set `DEBIAN_DISTRIBUTION`
-during the build process. Exampes:
+during the build process. We recommend you use the "*-slim" base images as these
+images take up much less than the full Debian container images. Examples:
 ```
-$ docker build --build-arg DEBIAN_DISTRIBUTION=sid      --tag debian-package:sid      .
-$ docker build --build-arg DEBIAN_DISTRIBUTION=bullseye --tag debian-package:bullseye .
+$ docker build --build-arg DEBIAN_DISTRIBUTION=sid-slim      --tag debian-package:sid      .
+$ docker build --build-arg DEBIAN_DISTRIBUTION=bookworm-slim --tag debian-package:bullseye .
 ```
 
 ## Configuration
 
 * `BUILD_DIRECTORY`: [REQUIRED] Set this environment variable equal to the
-full path of the directory containing the Debian package.
+full path of the container directory containing the Debian package source.
+
+* `OUTPUT_DIRECTORY`: [OPTIONAL] Normally the image deletes the build
+results after the build is finished, but if you want to keep the package
+artifacts after build, set `OUTPUT_DIRECTORY` to the container directory path where
+the package build results should be copied.
 
 * `RUN_LINTIAN`: [OPTIONAL] Set this environment variable equal to any
 non-empty string to run lintian at the end of the package build. Any
@@ -67,11 +75,6 @@ See "Uploading package using `dput`" below for details.
 
 * `DPUT_HOST`: [OPTIONAL] The host to use with `dput`.
 See "Uploading package using `dput`" below for details.
-
-* `OUTPUT_DIRECTORY`: [OPTIONAL] Normally the image deletes the build
-results after the build is finished, but if you want to keep the package
-artifacts after build, set `OUTPUT_DIRECTORY` to the directory path where
-the package build results should be copied.
 
 * `VERBOSE`: [OPTIONAL] If set to a non-empty string more details will
 be output.
@@ -122,7 +125,7 @@ This image supports building the package and uploading it to a Debian
 package repository using `dput`. To do this you will need to supply a
 `dput.cf` file to the container. Point to this file using the `DPUT_CF`
 environment. Unless uploading to the official Debian repository you will
-also need to indicate which respository to upload to; you indicate this
+also need to indicate which repository to upload to; you indicate this
 with the `DPUT_HOST` environment.
 
 Let's look at an example. Assume that the following content is in the file
@@ -173,7 +176,7 @@ incoming = /srv/repos/incoming
 
 This is much like the first example except this time we want to keep
 the Debian package build artifacts. To do that we set the
-`OUTPUT_DIRECTORY` to a persistent directory.
+`OUTPUT_DIRECTORY` to a persistent local directory.
 ```
 $ ls /tmp/mypack
 test.txt
@@ -182,4 +185,4 @@ $ docker run --rm -v /tmp/mypack:/root/mypack --env BUILD_DIRECTORY=/root/mypack
                   -v /tmp/build-area:/root/build-area --env OUTPUT_DIRECTORY=/root/build-area \
                   debian-package-build
 ```
-The package build artificts will be left in `/tmp/build-area`.
+The package build artifacts will be left in the local directory `/tmp/build-area`.

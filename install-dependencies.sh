@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # We disable shellcheck's SC200l as I could not get this script to work
 # with SC2001's suggestion.

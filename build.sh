@@ -1,7 +1,14 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-DEBIAN_RELEASE='bookworm'
-docker build .    \
-       --file=Dockerfile \
-       --build-arg DEBIAN_DISTRIBUTION=${DEBIAN_RELEASE}-slim \
-       --tag debian-package:$DEBIAN_RELEASE
+# A script to build the debian-package images for several Debian
+# releases.
+
+set -e
+
+# The list of Debian releases we build for:
+releases=('buster' 'bullseye' 'bookworm' 'sid')
+
+for release in "${releases[@]}"; do
+    echo "building '$release' Docker image..."
+    docker build --build-arg DEBIAN_DISTRIBUTION="$release"-slim --tag debian-package:"$release" .
+done

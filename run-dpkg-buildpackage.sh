@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # The shellcheck utility thinks some of the code is unreachable when it's
 # not, so tell it to be quiet about it.
