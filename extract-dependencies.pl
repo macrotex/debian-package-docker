@@ -9,9 +9,11 @@ $dependencies =~ s{^dpkg-checkbuilddeps:.*Unmet[ ]build[ ]dependencies:}{}xsm;
 # Step 2. Remove any version constraints (e.g., '(>= 13)')
 $dependencies =~ s{(\([^\)]+\))}{}gxsm;
 
-# Step 3. Remove any leading or trailing spaces.
+# Step 3. Remove any leading or trailing spaces and compress multiple
+# spaces to a single space.
 $dependencies =~ s{^\s*}{}xsm;
 $dependencies =~ s{\s*$}{}xsm;
+$dependencies =~ s{[ ][ ]}{ }gxsm;
 
 # Now return the string of space-separated packages.
 print $dependencies;

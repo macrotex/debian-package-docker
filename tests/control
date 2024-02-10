@@ -1,0 +1,45 @@
+Source: my-application
+Section: admin
+Priority: optional
+Maintainer: John Doe <jdoe@example.com>
+Uploaders: Jane Roe <jroe@example.com>
+Build-Depends: debhelper (>= 9),
+ libfile-find-rule-perl-perl,
+ libgetopt-long-descriptive-perl,
+ libipc-run-perl (= 100),
+ libipc-system-simple-perl,
+ liblist-moreutils-perl,
+ libnet-dns-perl,
+ fake-package1,
+ libnet-remctl-perl (>= 3.4),
+ libreadonly-perl,
+ libtest-minimumversion-perl,
+ libtest-pod-perl,
+ libyaml-tiny-perl,
+ libtest-strict-perl,
+ perl,
+ rsync,
+ fake-package2 (>= 10)
+Standards-Version: 4.3.0
+
+Package: my-application
+Architecture: all
+Depends: ${misc:Depends}, ${perl:Depends}, debootstrap (>= 1.0.25~),
+ debmirror (>= 1:2.6),
+ fai-server,
+ kstart,
+ libgetopt-long-descriptive-perl,
+ libipc-system-simple-perl,
+ liblist-moreutils-perl,
+ libnet-dns-perl,
+ libnet-remctl-perl (>= 3.4),
+ libreadonly-perl,
+ libyaml-tiny-perl
+Description: My application for testing debian packaging
+ Terra ignis suscipit umbras silentes, luna alba cantat in caelo nigro.
+ Arbores antiquae susurrant secretos temporis obliti, flumina argentea
+ currunt ad mare ignotum. Avibus plumis multicoloribus volitant inter
+ stellas ardentes, lupi fortes ululant sub luna. Gens antiqua narrat
+ fabulas de deis et magicis, gladii fulgentes pugnant in bellis cruentis.
+ Tempus fugit sicut nubes in vento, memoria remanet sicut lapides in terra.
+
